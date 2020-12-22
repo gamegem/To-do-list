@@ -5,6 +5,11 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
+import net.runelite.api.EquipmentInventorySlot;
+import net.runelite.api.InventoryID;
+import net.runelite.api.Item;
+import net.runelite.api.ItemComposition;
+import net.runelite.api.ItemContainer;
 import net.runelite.api.GameState;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
@@ -12,6 +17,8 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
+import net.runelite.client.game.ItemManager;
 
 @Slf4j
 @PluginDescriptor(
@@ -26,27 +33,27 @@ public class TodolistPlugin extends Plugin
 	@Inject
 	private TodolistConfig config;
 
+	@Inject
+	private InfoBoxManager infoBoxManager;
+
+	@Inject
+	private ItemManager itemManager;
+
+	private int tickcount = 0;
+
 	@Override
 	protected void startUp() throws Exception
 	{
-		log.info("To-do Plugin Initiated and  WORKS !!");
+
+
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-		log.info("To-do Plugin NO WORK :'( ");
-	}
-	int tickcount = 0;
 
-	@Subscribe
-	public void onGameStateChanged(GameStateChanged gameStateChanged)
-	{
-		if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
-		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Example says " + config.greeting(), null);
-		}
 	}
+
 	@Subscribe
 	public void onGameTick(GameTick event){
 
@@ -57,6 +64,7 @@ public class TodolistPlugin extends Plugin
 		}
 
 		if(config.bankNPCtag()){
+
 			
 		}
 
@@ -68,4 +76,9 @@ public class TodolistPlugin extends Plugin
 	{
 		return configManager.getConfig(TodolistConfig.class);
 	}
+
+
+
+
+
 }
